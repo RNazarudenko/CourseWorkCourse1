@@ -39,26 +39,6 @@ namespace LoginWindow
             SaveCinemas();
         }
 
-        private void ListBoxMovies_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (listBoxMovies.SelectedIndex != -1)
-            {
-                Cinema selectedCinema = cinemas[listBoxMovies.SelectedIndex];
-                MovieTitleText.Text = "Назва: " + selectedCinema.Title;
-                MovieGenreText.Text = "Жанр: " + selectedCinema.Genre;
-                MovieRatingText.Text = "Рейтинг: " + selectedCinema.CriticsRating.ToString();
-                MovieYearText.Text = "Рік випуску: " + selectedCinema.Year.ToString();
-                MovieAgeText.Text = "Вік: " + selectedCinema.Age.ToString();
-                MovieOriginalNameText.Text = "Оригінальна назва: " + selectedCinema.OriginalName;
-                MovieLanguageText.Text = "Мова: " + selectedCinema.Language;
-                MovieDurationText.Text = "Тривалість: " + selectedCinema.Duration.ToString() + " хв.";
-                ChooseSeatsButton.IsEnabled = true;
-                comboBoxTime.IsEnabled = true;
-                MovieDelateButton.IsEnabled = true;
-                SelectedFilm = listBoxMovies.SelectedItem.ToString();
-            }
-        }
-
         private void ChooseSeatsButton_Click(object sender, RoutedEventArgs e)
         {
             if (comboBoxTime.SelectedIndex >= 0 && comboBoxTime.SelectedIndex <= 6)
@@ -94,18 +74,6 @@ namespace LoginWindow
                 MessageBox.Show("Виберіть фільм для видалення.", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        private void ClearMovieDetails()
-        {
-            MovieTitleText.Text = "";
-            MovieGenreText.Text = "";
-            MovieRatingText.Text = "";
-            MovieYearText.Text = "";
-            MovieAgeText.Text = "";
-            MovieOriginalNameText.Text = "";
-            MovieLanguageText.Text = "";
-            MovieDurationText.Text = "";
-        }
-
         private void SaveCinemas()
         {
             File.WriteAllText(saveFilePath, JsonConvert.SerializeObject(cinemas));
@@ -125,6 +93,36 @@ namespace LoginWindow
         {
             this.Close();
             _mainWindow.Show();
+        }
+
+        private void DisplayMovieDetails(Cinema cinema)
+        {
+            MovieTitleText.Text = "Назва: " + cinema.Title;
+            MovieGenreText.Text = "Жанр: " + cinema.Genre;
+            MovieRatingText.Text = "Рейтинг: " + cinema.CriticsRating.ToString();
+            MovieYearText.Text = "Рік випуску: " + cinema.Year.ToString();
+            MovieAgeText.Text = "Вік: " + cinema.Age.ToString();
+            MovieOriginalNameText.Text = "Оригінальна назва: " + cinema.OriginalName;
+            MovieLanguageText.Text = "Мова: " + cinema.Language;
+            MovieDurationText.Text = "Тривалість: " + cinema.Duration.ToString() + " хв.";
+        }
+
+        private void ListBoxMovies_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (listBoxMovies.SelectedIndex != -1)
+            {
+                Cinema selectedCinema = cinemas[listBoxMovies.SelectedIndex];
+                DisplayMovieDetails(selectedCinema);
+                ChooseSeatsButton.IsEnabled = true;
+                comboBoxTime.IsEnabled = true;
+                MovieDelateButton.IsEnabled = true;
+                SelectedFilm = selectedCinema.Title;
+            }
+        }
+
+        private void ClearMovieDetails()
+        {
+            DisplayMovieDetails(new Cinema());
         }
     }
 }
