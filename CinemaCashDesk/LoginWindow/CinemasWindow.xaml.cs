@@ -85,9 +85,11 @@ namespace LoginWindow
         {
             if (File.Exists(saveFilePath))
             {
-                cinemas = JsonConvert.DeserializeObject<List<Cinema>>(File.ReadAllText(saveFilePath));
-                foreach (var cinema in cinemas)
-                    listBoxMovies.Items.Add(cinema.Title);
+                var jsonData = File.ReadAllText(saveFilePath);
+                if (!string.IsNullOrWhiteSpace(jsonData))
+                {
+                    cinemas = JsonConvert.DeserializeObject<List<Cinema>>(jsonData) ?? new List<Cinema>();
+                }
             }
         }
 
