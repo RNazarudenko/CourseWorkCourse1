@@ -9,6 +9,8 @@ namespace LoginWindow
 {
     public partial class CinemasWindow : Window
     {
+        private const int MaxMovies = 6;
+        private const int MaxTimeSlots = 7;
         private List<Cinema> cinemas;
         private string saveFilePath = "cinemas.json";
         private MainWindow _mainWindow;
@@ -23,7 +25,7 @@ namespace LoginWindow
 
         private void MovieAdd_Click(object sender, RoutedEventArgs e)
         {
-            if (listBoxMovies.Items.Count < 6)
+            if (listBoxMovies.Items.Count < MaxMovies)
             {
                 MovieAddWindow movieAddWindow = new MovieAddWindow(this);
                 movieAddWindow.ShowDialog();
@@ -61,7 +63,7 @@ namespace LoginWindow
 
         private void ChooseSeatsButton_Click(object sender, RoutedEventArgs e)
         {
-            if (comboBoxTime.SelectedIndex >= 0 && comboBoxTime.SelectedIndex <= 6)
+            if (comboBoxTime.SelectedIndex >= 0 && comboBoxTime.SelectedIndex <= MaxMovies)
             {
                 Cinema selectedCinema = cinemas[listBoxMovies.SelectedIndex];
                 int selectedTime = comboBoxTime.SelectedIndex + 1;
@@ -81,7 +83,7 @@ namespace LoginWindow
                 listBoxMovies.Items.RemoveAt(selectedIndex);
                 SaveCinemas();
                 ClearMovieDetails();
-                for (int i = 1; i <= 7; i++)
+                for (int i = 1; i <= MaxTimeSlots; i++)
                 {
                     string fileName = $"occupied{SelectedFilm}_{i}.json";
                     if (File.Exists(fileName))
