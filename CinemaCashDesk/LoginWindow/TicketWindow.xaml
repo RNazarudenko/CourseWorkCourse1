@@ -1,0 +1,11 @@
+﻿<Window x:Class="LoginWindow.TicketWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Друк квитка" Height="400" Width="400">
+    <Grid>
+        <StackPanel Margin="10">
+            <TextBlock Name="TicketDetailsTextBlock" FontSize="16" TextWrapping="Wrap"/>
+            <Button Content="Роздрукувати" Click="CloseButton_Click" Margin="5" Padding="5"/>
+        </StackPanel>
+    </Grid>
+</Window>
